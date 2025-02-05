@@ -1,5 +1,8 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
+#include<random>
+#include<ctime>
+#include<cstdlib>
 
 using namespace std;
 using namespace sf;
@@ -40,11 +43,17 @@ class Game
             while (timeSince>TimePerFrame)
             {
                 timeSince-=TimePerFrame;
-                window.clear(Color::White);
-                window.draw(backg);
-                spaceship_movement(timeSince);
+                set_aster();
+                spaceship_movement();
             }
-            
+            if(1)
+            {
+                Vector2f ss=aster.getPosition();
+                if(ss.y>700)
+                {
+                    set_rand_aster();
+                }
+            }
             Event ef;
             while(window.pollEvent(ef))
             {
@@ -53,13 +62,15 @@ class Game
                     window.close();
                 }
             }
+            window.clear(Color::White);
+            window.draw(backg);
             //in_range();
             window.draw(spaces);
             window.draw(aster);
             window.display();
         }
     }
-    void spaceship_movement(Time d)
+    void spaceship_movement()
     {
         Vector2f movement(0,0);
         if(Keyboard::isKeyPressed(Keyboard::W))
@@ -79,6 +90,19 @@ class Game
             movement.x+=move;
         }
         spaces.move(movement);
+    }
+    void set_aster()
+    {
+        Vector2f movement(0,0);
+        movement.y+=10;
+        aster.move(movement);
+    }
+
+    void set_rand_aster()
+    {
+        srand(time(nullptr));
+        int ran=rand()%800;
+        aster.setPosition(ran,10);
     }
     // void in_range()
     // {
