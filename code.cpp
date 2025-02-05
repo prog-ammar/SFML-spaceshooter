@@ -30,6 +30,7 @@ class Game
     }
     void run()
     {
+        window.setFramerateLimit(60);
         Clock clock;
         Time timeSince=Time::Zero;
         Time TimePerFrame=seconds(1.f/60.f);
@@ -42,7 +43,6 @@ class Game
                 window.clear(Color::White);
                 window.draw(backg);
                 spaceship_movement(timeSince);
-                window.draw(spaces);
             }
             
             Event ef;
@@ -53,6 +53,8 @@ class Game
                     window.close();
                 }
             }
+            //in_range();
+            window.draw(spaces);
             window.draw(aster);
             window.display();
         }
@@ -76,16 +78,32 @@ class Game
         {
             movement.x+=move;
         }
-        if(x>650)x=650;
-        if(y>680)y=680;
-        if(x<0)x=0;
-        if(y<0)y=0;
         spaces.move(movement);
     }
-    void asteriod_falling()
-    {
-
-    }
+    // void in_range()
+    // {
+    //   if(x>650)
+    //   {
+    //     x=650;
+    //     spaces.setPosition(y,x);
+    //   }
+    //   if(y>680)
+    //   {
+    //     y=680;
+    //     spaces.setPosition(y,x);
+    //   };
+    //   if(x<0)
+    //   {
+    //     x=0;
+    //     spaces.setPosition(y,x);
+    //   }
+    //   if(y<0)
+    //   {
+    //     y=0;
+    //     spaces.setPosition(y,x);
+    //   }
+      
+    // }
 };
 
 int main()
