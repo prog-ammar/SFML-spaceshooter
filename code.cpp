@@ -8,9 +8,14 @@ class Game
 {
     private:
     RenderWindow window;
+    Texture background;
+    Sprite backg;
     public:
     Game(): window(VideoMode(800,800),"SPACE-SHOOTER")
-    {}
+    {
+       background.loadFromFile("1.jpg");
+       Sprite backg(background);
+    }
     void run()
     {
         while(window.isOpen())
@@ -24,7 +29,14 @@ class Game
                 }
             }
             window.clear(Color::White);
+            window.draw(backg);
             window.display();
         }
     }
+};
+
+int main()
+{
+    Game g;
+    g.run();
 }
