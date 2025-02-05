@@ -10,11 +10,17 @@ class Game
     RenderWindow window;
     Texture background;
     Sprite backg;
+    Texture spaceship;
+    Sprite spaces;
     public:
-    Game(): window(VideoMode(800,800),"SPACE-SHOOTER")
+    Game(): window(VideoMode(1280,720),"SPACE-SHOOTER")
     {
        background.loadFromFile("1.jpg");
-       Sprite backg(background);
+       backg.setTexture(background);
+       spaceship.loadFromFile("ship.PNG");
+       spaces.setTexture(spaceship);
+       spaces.setScale(0.15,0.15);
+       spaces.setPosition(550,550);
     }
     void run()
     {
@@ -30,6 +36,7 @@ class Game
             }
             window.clear(Color::White);
             window.draw(backg);
+            window.draw(spaces);
             window.display();
         }
     }
