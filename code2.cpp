@@ -1,5 +1,8 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
+#include<random>
+#include<ctime>
+#include<cstdlib>
 
 using namespace std;
 using namespace sf;
@@ -28,9 +31,9 @@ class game
       backgtexture.loadFromFile("1.jpg");
       background.setTexture(backgtexture);
 
-      astertexture.loadFromFile("asteriod.PNG");
+      astertexture.loadFromFile("asteroid.PNG");
       asteriod.setTexture(astertexture);
-      asteriod.setScale(0.10,0.10);
+      asteriod.setScale(0.05,0.05);
 
       window.setFramerateLimit(60);
     }
@@ -49,8 +52,10 @@ class game
             }
             window.clear(Color::White);
             spaceship_movement();
+            asteriod_movement();
             window.draw(background);
             window.draw(spaceship);
+            window.draw(asteriod);
             window.display();
        }
     }
@@ -75,7 +80,7 @@ class game
             movement.x+=10;
         }
         spaceship.move(movement);
-        
+
         Vector2f current_pos=spaceship.getPosition();
         if(current_pos.x>1120)
         {
@@ -94,6 +99,16 @@ class game
             current_pos.y=0;
         }
         spaceship.setPosition(current_pos);
+    }
+
+    void asteriod_movement()
+    {
+        asteriod.move(0,10);
+        if(asteriod.getPosition().y>800)
+        {
+           int ran=rand()%1280;
+           asteriod.setPosition(ran,10);
+        }
     }
 };
 
