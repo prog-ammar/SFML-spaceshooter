@@ -3,6 +3,7 @@
 #include<random>
 #include<ctime>
 #include<cstdlib>
+#include<thread>
 
 using namespace std;
 using namespace sf;
@@ -17,10 +18,11 @@ class Game
     Sprite spaces;
     Texture asteriod;
     Sprite aster;
-    CircleShape fire;
+    CircleShape fire[1000];
+    int l;
     int x,y,move;
     public:
-    Game(): window(VideoMode(800,800),"SPACE-SHOOTER"),x(650),y(320),move(10)
+    Game(): window(VideoMode(800,800),"SPACE-SHOOTER"),x(650),y(320),move(10),l(-1)
     {
        background.loadFromFile("1.jpg");
        backg.setTexture(background);
@@ -46,6 +48,7 @@ class Game
                 timeSince-=TimePerFrame;
                 set_aster();
                 spaceship_movement();
+                firemovement();
             }
             Vector2f checkbound=aster.getPosition();
             if(checkbound.y>790)
@@ -63,7 +66,10 @@ class Game
             window.clear(Color::White);
             window.draw(backg);
             window.draw(spaces);
-            window.draw(fire);
+            for(int i=0;i<l;i++)
+            {
+              window.draw(fire[i]);
+            }
             window.draw(aster);
             window.display();
         }
@@ -90,13 +96,12 @@ class Game
         }
         if(Keyboard::isKeyPressed(Keyboard::Q))
         {
-            fire.setRadius(15);
-            fire.setFillColor(Color::Red);
-            Vector2f shiploc=spaces.getPosition();
-            fire.setPosition(shiploc.x+50,shiploc.y);
+           l++;
+           fire[l].setRadius(15);
+           fire[l].setFillColor(Color::Red);
+           Vector2f shiploc=spaces.getPosition();
+           fire[l].setPosition(shiploc.x+50,shiploc.y);
         }
-        movementfire.y-=15;
-        fire.move(movementfire);
         spaces.move(movement);
     }
     void set_aster()
@@ -113,9 +118,15 @@ class Game
         aster.setPosition(ran,10);
     }
 
-    // void shoot()
-    // {
-    // }
+    void firemovement()
+    {
+        for(int i=0;i<l;i++)
+        {
+           Vector2f movementfire(0,0);
+           movementfire.y-=15;
+          fire[i].move(movementfire);
+        } 
+    }
     // void in_range()
     // {
     //   Vector2f current=spaces.getPosition();
