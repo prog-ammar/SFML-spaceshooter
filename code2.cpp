@@ -15,6 +15,7 @@ class game
     Sprite spaceship;
     Sprite asteriod;
     Sprite background;
+    CircleShape fire;
 
     Texture spacestexture;
     Texture backgtexture; 
@@ -53,9 +54,11 @@ class game
             window.clear(Color::White);
             spaceship_movement();
             asteriod_movement();
+            shoot_fire();
             window.draw(background);
             window.draw(spaceship);
             window.draw(asteriod);
+            window.draw(fire);
             window.display();
        }
     }
@@ -103,12 +106,24 @@ class game
 
     void asteriod_movement()
     {
-        asteriod.move(0,10);
+        asteriod.move(0,5);
         if(asteriod.getPosition().y>800)
         {
            int ran=rand()%1280;
            asteriod.setPosition(ran,10);
         }
+    }
+
+    void shoot_fire()
+    {
+      if(Keyboard::isKeyPressed(Keyboard::Q))
+      {
+        Vector2f current_pos=spaceship.getPosition();
+        fire.setPosition(current_pos.x+33,current_pos.y);
+        fire.setRadius(10);
+        fire.setFillColor(Color::Red);
+      }
+      fire.move(0,-10);
     }
 };
 
