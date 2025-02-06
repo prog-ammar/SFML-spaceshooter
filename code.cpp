@@ -17,6 +17,7 @@ class Game
     Sprite spaces;
     Texture asteriod;
     Sprite aster;
+    CircleShape fire;
     int x,y,move;
     public:
     Game(): window(VideoMode(800,800),"SPACE-SHOOTER"),x(650),y(320),move(10)
@@ -46,13 +47,10 @@ class Game
                 set_aster();
                 spaceship_movement();
             }
-            if(1)
+            Vector2f checkbound=aster.getPosition();
+            if(checkbound.y>790)
             {
-                Vector2f ss=aster.getPosition();
-                if(ss.y>700)
-                {
-                    set_rand_aster();
-                }
+                set_rand_aster();
             }
             Event ef;
             while(window.pollEvent(ef))
@@ -64,8 +62,8 @@ class Game
             }
             window.clear(Color::White);
             window.draw(backg);
-            //in_range();
             window.draw(spaces);
+            window.draw(fire);
             window.draw(aster);
             window.display();
         }
@@ -73,6 +71,7 @@ class Game
     void spaceship_movement()
     {
         Vector2f movement(0,0);
+        Vector2f movementfire(0,0);
         if(Keyboard::isKeyPressed(Keyboard::W))
         {
             movement.y-=move;
@@ -89,12 +88,21 @@ class Game
         {
             movement.x+=move;
         }
+        if(Keyboard::isKeyPressed(Keyboard::Q))
+        {
+            fire.setRadius(15);
+            fire.setFillColor(Color::Red);
+            Vector2f shiploc=spaces.getPosition();
+            fire.setPosition(shiploc.x+50,shiploc.y);
+        }
+        movementfire.y-=15;
+        fire.move(movementfire);
         spaces.move(movement);
     }
     void set_aster()
     {
         Vector2f movement(0,0);
-        movement.y+=10;
+        movement.y+=12;
         aster.move(movement);
     }
 
@@ -104,29 +112,30 @@ class Game
         int ran=rand()%800;
         aster.setPosition(ran,10);
     }
+
+    // void shoot()
+    // {
+    // }
     // void in_range()
     // {
-    //   if(x>650)
+    //   Vector2f current=spaces.getPosition();
+    //   if(current.y>650)
     //   {
-    //     x=650;
-    //     spaces.setPosition(y,x);
+    //     y=650;
     //   }
-    //   if(y>680)
+    //   if(current.x>680)
     //   {
-    //     y=680;
-    //     spaces.setPosition(y,x);
+    //     x=680;
     //   };
-    //   if(x<0)
-    //   {
-    //     x=0;
-    //     spaces.setPosition(y,x);
-    //   }
-    //   if(y<0)
+    //   if(current.y<0)
     //   {
     //     y=0;
-    //     spaces.setPosition(y,x);
     //   }
-      
+    //   if(current.x<0)
+    //   {
+    //     x=0;
+    //   }
+    //   spaces.setPosition(x,y);
     // }
 };
 
