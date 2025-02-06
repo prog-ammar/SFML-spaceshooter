@@ -15,14 +15,15 @@ class game
     Sprite spaceship;
     Sprite asteriod;
     Sprite background;
-    CircleShape fire;
+    CircleShape fire[1000];
 
     Texture spacestexture;
     Texture backgtexture; 
     Texture astertexture;
 
+    int l;
     public:
-    game(): window(VideoMode(1200,800),"Space Shooter")
+    game(): window(VideoMode(1200,800),"Space Shooter"),l(-1)
     {
       spacestexture.loadFromFile("ship.PNG");
       spaceship.setTexture(spacestexture);
@@ -34,7 +35,7 @@ class game
 
       astertexture.loadFromFile("asteroid.PNG");
       asteriod.setTexture(astertexture);
-      asteriod.setScale(0.05,0.05);
+      asteriod.setScale(0.15,0.15);
 
       window.setFramerateLimit(60);
     }
@@ -58,7 +59,10 @@ class game
             window.draw(background);
             window.draw(spaceship);
             window.draw(asteriod);
-            window.draw(fire);
+            for(int i=0;i<=l;i++)
+            {
+              window.draw(fire[i]);
+            }
             window.display();
        }
     }
@@ -112,18 +116,35 @@ class game
            int ran=rand()%1280;
            asteriod.setPosition(ran,10);
         }
+        if(spaceship.getGlobalBounds().intersects(asteriod.getGlobalBounds()))
+        {
+            int ran=rand()%1280;
+            asteriod.setPosition(ran,10);
+        }
+        for(int i=0;i<=l;i++)
+        {
+           if(fire[i].getGlobalBounds().intersects(asteriod.getGlobalBounds()))
+        {
+            int ran=rand()%1280;
+            asteriod.setPosition(ran,10);
+        }
+        }
     }
 
     void shoot_fire()
     {
-      if(Keyboard::isKeyPressed(Keyboard::Q))
+      if(Keyboard::isKeyPressed(Keyboard::Space))
       {
+        l++;
         Vector2f current_pos=spaceship.getPosition();
-        fire.setPosition(current_pos.x+33,current_pos.y);
-        fire.setRadius(10);
-        fire.setFillColor(Color::Red);
+        fire[l].setPosition(current_pos.x+33,current_pos.y);
+        fire[l].setRadius(10);
+        fire[l].setFillColor(Color::Red);
       }
-      fire.move(0,-10);
+      for(int i=0;i<=l;i++)
+      {
+        fire[i].move(0,-10);
+      }
     }
 };
 
