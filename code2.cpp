@@ -75,6 +75,25 @@ class game
             movement.x+=10;
         }
         spaceship.move(movement);
+        
+        Vector2f current_pos=spaceship.getPosition();
+        if(current_pos.x>1120)
+        {
+            current_pos.x=1120;
+        }
+        if(current_pos.x<0)
+        {
+            current_pos.x=0;
+        }
+        if(current_pos.y>720)
+        {
+            current_pos.y=720;
+        }
+        if(current_pos.y<0)
+        {
+            current_pos.y=0;
+        }
+        spaceship.setPosition(current_pos);
     }
 };
 
