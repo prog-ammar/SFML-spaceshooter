@@ -35,7 +35,7 @@ class game
 
       astertexture.loadFromFile("asteroid.PNG");
       asteriod.setTexture(astertexture);
-      asteriod.setScale(0.15,0.15);
+      asteriod.setScale(0.08,0.08);
 
       window.setFramerateLimit(60);
     }
