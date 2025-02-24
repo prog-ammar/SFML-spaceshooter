@@ -44,7 +44,7 @@ class game
       font.loadFromFile("Arial.ttf");
       string.setFont(font);
       string.setFillColor(Color::White);
-      string.setCharacterSize(25);
+      string.setCharacterSize(40);
       string.setPosition(30, 0);
       window.setFramerateLimit(60);
     }
@@ -140,10 +140,6 @@ class game
             asteriod.setPosition(ran,10);
             score--;
         }
-        if (asteriod.getPosition().x > 800)
-        {
-            score++;
-        }
         for(int i=0;i<=l;i++)
         {
            if(fire[i].getGlobalBounds().intersects(asteriod.getGlobalBounds()))
@@ -171,7 +167,17 @@ class game
     {
         for(int i=0;i<=l;i++)
       {
+        if(fire[i].getPosition().y<1200)
         fire[i].move(0,-10);
+        else
+        {
+            for (int j = i;j < l;j++)
+            {
+                fire[j] = fire[j + 1];
+            }
+            l--;
+        }
+        
       }
     }
 };
