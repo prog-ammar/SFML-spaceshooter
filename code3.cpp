@@ -21,9 +21,13 @@ class game
     Texture backgtexture; 
     Texture astertexture;
 
+    Font font;
+    Text string;
+
     int l;
+    int score;
     public:
-    game(): window(VideoMode(1200,800),"Space Shooter"),l(-1)
+    game(): window(VideoMode(1200,800),"Space Shooter"),l(-1),score(0)
     {
       spacestexture.loadFromFile("ship.PNG");
       spaceship.setTexture(spacestexture);
@@ -37,6 +41,11 @@ class game
       asteriod.setTexture(astertexture);
       asteriod.setScale(0.08,0.08);
 
+      font.loadFromFile("Arial.ttf");
+      string.setFont(font);
+      string.setFillColor(Color::White);
+      string.setCharacterSize(25);
+      string.setPosition(30, 0);
       window.setFramerateLimit(60);
     }
 
@@ -63,9 +72,11 @@ class game
             spaceship_movement();
             asteriod_movement();
             fire_movement();
+            string.setString("Score : " + to_string(score));
             window.draw(background);
             window.draw(spaceship);
             window.draw(asteriod);
+            window.draw(string);
             for(int i=0;i<=l;i++)
             {
               window.draw(fire[i]);
@@ -120,20 +131,26 @@ class game
         asteriod.move(0,5);
         if(asteriod.getPosition().y>800)
         {
-           int ran=rand()%1280;
+           int ran=rand()%1180;
            asteriod.setPosition(ran,10);
         }
         if(spaceship.getGlobalBounds().intersects(asteriod.getGlobalBounds()))
         {
-            int ran=rand()%1280;
+            int ran=rand()%1180;
             asteriod.setPosition(ran,10);
+            score--;
+        }
+        if (asteriod.getPosition().x > 800)
+        {
+            score++;
         }
         for(int i=0;i<=l;i++)
         {
            if(fire[i].getGlobalBounds().intersects(asteriod.getGlobalBounds()))
         {
-            int ran=rand()%1280;
+            int ran=rand()%1180;
             asteriod.setPosition(ran,10);
+            score++;
         }
         }
     }
